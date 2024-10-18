@@ -8,7 +8,7 @@ class Publisher(Node):
 
         # Declare and get parameters
         self.declare_parameter('text', 'Hello, ROS2!')
-        text = self.get_parameter('text').value
+        self.text = self.get_parameter('text').value
 
         # Load topic name from the config file
         self.declare_parameter('topic_name', '/spgc/receiver')
@@ -17,11 +17,15 @@ class Publisher(Node):
         # Create publisher
         self.publisher_ = self.create_publisher(String, topic_name, 10)
 
-        # Publish the message
+        # Create a timer to publish the message every second (1 Hz)
+        timer_period = 1.0  # seconds
+        self.timer = self.create_timer(timer_period, self.publish_message)
+
+    def publish_message(self):
         msg = String()
-        msg.data = text
+        msg.data = self.text
         self.publisher_.publish(msg)
-        self.get_logger().info(f'Published message: "{msg.data}" to topic: "{topic_name}"')
+        self.get_logger().info(f'Published message: "{msg.data}"')
 
 def main(args=None):
     rclpy.init(args=args)
