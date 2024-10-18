@@ -13,7 +13,7 @@ class Receiver(Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
-        self.get_logger().info(f'Received message: "{msg.data}"')
+        self.get_logger().info(f'{msg.data}')
 
 def main(args=None):
     rclpy.init(args=args)
