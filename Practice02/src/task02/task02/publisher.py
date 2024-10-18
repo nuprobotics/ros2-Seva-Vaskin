@@ -8,11 +8,11 @@ class Publisher(Node):
 
         # Declare and get parameters
         self.declare_parameter('text', 'Hello, ROS2!')
-        self.text = self.get_parameter('text').value
+        self.text = self.get_parameter('text').string_value
 
         # Load topic name from the config file
         self.declare_parameter('topic_name', '/spgc/receiver')
-        topic_name = self.get_parameter('topic_name').value
+        topic_name = self.get_parameter('topic_name').string_value
 
         # Create publisher
         self.publisher_ = self.create_publisher(String, topic_name, 10)
