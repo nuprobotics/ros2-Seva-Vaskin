@@ -6,19 +6,15 @@ class Publisher(Node):
     def __init__(self):
         super().__init__('publisher')
 
-        # Declare and get parameters
         self.declare_parameter('text', 'Hello, ROS2!')
-        self.text = self.get_parameter('text').string_value
+        self.text = self.get_parameter('text').value
 
-        # Load topic name from the config file
         self.declare_parameter('topic_name', '/spgc/receiver')
-        topic_name = self.get_parameter('topic_name').string_value
+        topic_name = self.get_parameter('topic_name').value
 
-        # Create publisher
         self.publisher_ = self.create_publisher(String, topic_name, 10)
 
-        # Create a timer to publish the message every second (1 Hz)
-        timer_period = 1.0  # seconds
+        timer_period = 1.0  
         self.timer = self.create_timer(timer_period, self.publish_message)
 
     def publish_message(self):

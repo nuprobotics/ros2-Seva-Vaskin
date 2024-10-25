@@ -2,21 +2,28 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from ament_index_python.packages import get_package_share_directory
+import os
 
 def generate_launch_description():
-    return LaunchDescription([
-        DeclareLaunchArgument(
+
+    text_arg = DeclareLaunchArgument(
             'text',
             default_value='Hello, ROS2!',
             description='Text to publish'
-        ),
+        )
+
+    config_file = os.path.join(get_package_share_directory('task02'), 'config', 'task02.yaml')
+
+    return LaunchDescription([
+        text_arg,
         Node(
             package='task02',
             executable='publisher',
             name='publisher',
             output='screen',
             parameters=[
-                os.path.join(get_package_share_directory('task02'), 'config', 'task02.yaml'),
+                config_file,
                 {'text': LaunchConfiguration('text')},
             ]
         ),
