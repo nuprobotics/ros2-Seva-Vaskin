@@ -16,8 +16,8 @@ def generate_launch_description():
             name='publisher',
             output='screen',
             parameters=[
+                os.path.join(get_package_share_directory('task02'), 'config', 'task02.yaml'),
                 {'text': LaunchConfiguration('text')},
-                '/path/to/your/config/task02.yaml'
             ]
         ),
     ])
